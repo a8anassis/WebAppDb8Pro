@@ -1,3 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using WebAppDb.Configuration;
+
+
 namespace WebAppDb
 {
     public class Program
@@ -5,9 +9,15 @@ namespace WebAppDb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped(typeof(MapperConfig));
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            // Replace this line:
+            // builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+            // With this line:
+            //builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperConfig>());
+            builder.Services.AddRazorPages();   
 
             var app = builder.Build();
 

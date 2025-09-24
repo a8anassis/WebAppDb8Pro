@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using WebAppDb.Configuration;
 
 
@@ -9,14 +10,20 @@ namespace WebAppDb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddScoped(typeof(MapperConfig));
+            //builder.Services.AddScoped(typeof(MapperConfig));
 
             // Add services to the container.
             // Replace this line:
             // builder.Services.AddAutoMapper(typeof(MapperConfig));
 
             // With this line:
-            //builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperConfig>());
+            builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MapperConfig>());
+
+            builder.Host.UseSerilog((context, config) =>
+            {
+                config.ReadFrom.Configuration(context.Configuration);
+            });
+
             builder.Services.AddRazorPages();   
 
             var app = builder.Build();

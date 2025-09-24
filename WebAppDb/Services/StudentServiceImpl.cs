@@ -68,6 +68,7 @@ namespace WebAppDb.Services
             {
                 logger.LogError("Student Update failed for id {Id} {Firstname} {Lastname}. {ErrorMessage}",
                     studentUpdateDTO.Id, studentUpdateDTO.Firstname, studentUpdateDTO.Lastname, ex.Message);
+                throw;
             }
             catch (TransactionException ex)
             {
@@ -79,7 +80,29 @@ namespace WebAppDb.Services
 
         public void DeleteStudent(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using TransactionScope scope = new TransactionScope();
+                if (studentDAO.GetById(id) == null)
+                {
+                    throw new StudentNotFoundException($"Student with id {id} not found.");
+                }
+                studentDAO.Delete(id);
+                logger.LogInformation("Student with id {Id} deleted successfully", id);
+                scope.Complete();
+            }
+            catch (TransactionException ex)
+            {
+                logger.LogError("Student Deletion failed for id {Id}. {ErrorMessage}",
+                    id, ex.Message);
+                throw;
+            }
+            catch (StudentNotFoundException ex)
+            {
+                logger.LogError("Student with id {Id} not found. {ErrorMessage}",
+                    id, ex.Message);
+                throw;
+            }
         }
 
         public List<StudentReadOnlyDTO> GetAllStudents()

@@ -137,13 +137,28 @@ namespace WebAppDb.Services
 
         public List<StudentReadOnlyDTO> GetAllStudents()
         {
-            throw new NotImplementedException();
+            List<StudentReadOnlyDTO> studentReadOnlyDTOs = [];
+            StudentReadOnlyDTO studentReadOnlyDTO;
+            List<Student> students;
+
+            try
+            {
+                students = studentDAO.GetAll();
+                foreach (Student student in students)
+                {
+                    studentReadOnlyDTO = mapper.Map<StudentReadOnlyDTO>(student);
+                    studentReadOnlyDTOs.Add(studentReadOnlyDTO);
+                }
+                logger.LogInformation("All students fetched successfully");
+                return studentReadOnlyDTOs;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error while fetching all students. {ErrorMessage}",
+                                    ex.Message);
+                throw;
+            }
         }
 
-        
-
-        
-
-        
     }
 }

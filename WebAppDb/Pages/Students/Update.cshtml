@@ -1,0 +1,53 @@
+﻿@page "/Students/{id}/Update"
+@model WebAppDb.Pages.Students.UpdateModel
+@{
+}
+
+<div class="container">
+
+    <form method="post">
+
+        <div class="row mb-3">
+            <label for="firstname" class="col-md-1">Όνομα</label>
+            <div class="col-md-6">
+                <input asp-for="StudentUpdateDTO.Firstname" class="form-control" />
+                <span asp-validation-for="StudentUpdateDTO.Firstname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="firstname" class="col-md-1">Επώνυμο</label>
+            <div class="col-md-6">
+                <input asp-for="StudentUpdateDTO.Lastname" class="form-control" />
+                <span asp-validation-for="StudentUpdateDTO.Lastname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div>
+            <div class="row mb-3">
+                <div class="offset-md-1 col-md-3 d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-1 col-md-3 d-grid">
+                    <a class="btn btn-outline-primary" href="/Students/getall">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        @if (Model.ErrorArray.Count != 0)
+        {
+            @foreach (var error in Model.ErrorArray)
+            {
+                <div>
+                    <p>@error.Message</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+

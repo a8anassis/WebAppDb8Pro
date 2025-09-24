@@ -1,0 +1,53 @@
+﻿@page "/Students/Create"
+@model WebAppDb.Pages.Students.CreateModel
+@{
+    ViewData["Title"] = "Add Student";
+}
+
+<div class="container">
+    <h1>Add Student</h1>
+
+    <form method="post">
+
+        <div class="row mb-3">
+            <label for="firstname" class="col-md-1">Όνομα</label>
+            <div class="col-md-6">
+                <input asp-for="StudentInsertDTO.Firstname" class="form-control" />
+                <span asp-validation-for="StudentInsertDTO.Firstname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="firstname" class="col-md-1">Επώνυμο</label>
+            <div class="col-md-6">
+                <input asp-for="StudentInsertDTO.Lastname" class="form-control" />
+                <span asp-validation-for="StudentInsertDTO.Lastname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div>
+            <div class="row mb-3">
+                <div class="offset-md-1 col-md-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-1 col-md-3">
+                    <a class="btn btn-outline-primary" href="/Students/getall">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        @if (Model.ErrorArray.Count != 0)
+        {
+            @foreach (var error in Model.ErrorArray)
+            {
+                <div>
+                    <p>@error.Message</p>
+                </div>
+            }
+        }
+    </div>
+</div>

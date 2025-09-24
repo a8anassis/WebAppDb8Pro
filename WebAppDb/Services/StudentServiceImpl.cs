@@ -91,7 +91,7 @@ namespace WebAppDb.Services
                 logger.LogInformation("Student with id {Id} deleted successfully", id);
                 scope.Complete();
             }
-            catch (TransactionException ex)
+            catch (TransactionException ex) // auto rollback 
             {
                 logger.LogError("Student Deletion failed for id {Id}. {ErrorMessage}",
                     id, ex.Message);
@@ -105,15 +105,42 @@ namespace WebAppDb.Services
             }
         }
 
+        public StudentReadOnlyDTO GetStudent(int id)
+        {
+            StudentReadOnlyDTO studentReadOnlyDTO;
+            Student? student;
+
+            try
+            {
+                student = studentDAO.GetById(id);
+                if (student == null)
+                {
+                    throw new StudentNotFoundException($"Student with id {id} not found.");
+                }
+                studentReadOnlyDTO = mapper.Map<StudentReadOnlyDTO>(student);
+                logger.LogInformation("Student with id {Id} fetched successfully", id);
+                return studentReadOnlyDTO;
+            }
+            catch (StudentNotFoundException ex)
+            {
+                logger.LogError("Student with id {Id} not found. {ErrorMessage}",
+                    id, ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error while fetching student with id {Id}. {ErrorMessage}",
+                                    id, ex.Message);
+                throw;
+            }
+        }
+
         public List<StudentReadOnlyDTO> GetAllStudents()
         {
             throw new NotImplementedException();
         }
 
-        public StudentReadOnlyDTO? GetStudent(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         
 

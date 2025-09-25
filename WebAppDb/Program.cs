@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using WebAppDb.Configuration;
+using WebAppDb.DAO;
+using WebAppDb.Services;
 
 
 namespace WebAppDb
@@ -25,6 +27,8 @@ namespace WebAppDb
             });
 
             builder.Services.AddRazorPages();   
+            builder.Services.AddScoped<IStudentService, StudentServiceImpl>();
+            builder.Services.AddScoped<IStudentDAO, StudentDAOImpl> ();
 
             var app = builder.Build();
 

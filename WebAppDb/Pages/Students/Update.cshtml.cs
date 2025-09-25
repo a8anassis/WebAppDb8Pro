@@ -9,7 +9,7 @@ namespace WebAppDb.Pages.Students
     public class UpdateModel : PageModel
     {
         [BindProperty]
-        public StudentUpdateDTO StudentUpdateDTO { get; set; }
+        public StudentUpdateDTO? StudentUpdateDTO { get; set; }
         public List<Error> ErrorArray { get; set; } = [];
 
         private readonly IStudentService studentService;
@@ -48,7 +48,7 @@ namespace WebAppDb.Pages.Students
             }
             try
             {
-                StudentUpdateDTO.Id = id;
+                StudentUpdateDTO!.Id = id;
                 studentService.UpdateStudent(StudentUpdateDTO);
                 Response.Redirect("/Students/getall");
             }

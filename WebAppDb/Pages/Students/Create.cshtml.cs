@@ -24,7 +24,7 @@ namespace WebAppDb.Pages.Students
             // return Page();
         }
 
-        public void onPost()
+        public void OnPost()
         {
             if (!ModelState.IsValid)
             {

@@ -8,7 +8,7 @@ namespace WebAppDb.Pages.Students
 {
     public class IndexModel : PageModel
     {
-        public List<Error> ErrorArray { get; set; } = [];
+        public Error ErrorObj { get; set; } = new();
 
         private readonly IStudentService studentService;
         public List<StudentReadOnlyDTO> StudentsReadOnlyDTO { get; set; } = [];
@@ -27,7 +27,7 @@ namespace WebAppDb.Pages.Students
             catch (Exception ex)
             {
                 // Handle exceptions
-                ErrorArray.Add(new Error { Message = ex.Message });
+                ErrorObj = new Error { Message = ex.Message };
 
             }
             return Page();
